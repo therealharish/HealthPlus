@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 
-contract EHR{
+contract health_record{
     struct Doctor{
         address id;
         string docName;
@@ -11,13 +11,10 @@ contract EHR{
     }
     struct Record {
         string cid;
-        string fileName;
-        uint256 aadhaarNumber;
+        string fileName; 
         address patientId;
         address doctorId;
-        string contactNumber;
-        string gender;
-        string dateOfBirth;
+        uint256 timeAdded;
     }
 
     struct Patient{
@@ -153,9 +150,10 @@ contract EHR{
         hospitals[_doctorId].docts.push(doc_details);
         emit DoctorAdded(msg.sender);
   }
-    function addRecord(string memory _cid, string memory _fileName, uint256 _aadhaarNumber, address _patientId, string memory _contactNumber,string memory _gender, string memory _dateOfBirth) public senderIsDoctorOrClinic patientExists(_patientId) {
-    Record memory record = Record(_cid, _fileName,_aadhaarNumber, _patientId,  msg.sender, _contactNumber,_gender, _dateOfBirth);
+    function addRecord(string memory _cid, string memory _fileName, address _patientId) public senderIsDoctor patientExists(_patientId) {
+    Record memory record = Record(_cid, _fileName, _patientId, msg.sender, block.timestamp);
     patients[_patientId].records.push(record);
+
     emit RecordAdded(_cid, _patientId, msg.sender);
   } 
 
