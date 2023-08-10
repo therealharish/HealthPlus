@@ -12,12 +12,11 @@ contract EHR{
     struct Record {
         string cid;
         string fileName;
+        string fullName;
         uint256 aadhaarNumber;
         address patientId;
         address doctorId;
-        string contactNumber;
-        string gender;
-        string dateOfBirth;
+        uint256 timeAdded;
     }
 
     struct Patient{
@@ -153,9 +152,10 @@ contract EHR{
         hospitals[_doctorId].docts.push(doc_details);
         emit DoctorAdded(msg.sender);
   }
-    function addRecord(string memory _cid, string memory _fileName, uint256 _aadhaarNumber, address _patientId, string memory _contactNumber,string memory _gender, string memory _dateOfBirth) public senderIsDoctorOrClinic patientExists(_patientId) {
-    Record memory record = Record(_cid, _fileName,_aadhaarNumber, _patientId,  msg.sender, _contactNumber,_gender, _dateOfBirth);
+    function addRecord(string memory _cid, string memory _fileName,string memory _fullName, uint256 _aadhaarNumber, address _patientId, string memory _contactNumber,string memory _gender, string memory _dateOfBirth) public senderIsDoctor patientExists(_patientId) {
+    Record memory record = Record(_cid, _fileName, _fullName,_aadhaarNumber, _patientId,  msg.sender, _contactNumber,_gender, _dateOfBirth);
     patients[_patientId].records.push(record);
+
     emit RecordAdded(_cid, _patientId, msg.sender);
   } 
 
