@@ -32,13 +32,11 @@ const Home = () => {
 
   const registerHospital = async () => {
     try {
-      // await contract.methods.addHospital().send({ from: accounts[0] })
-      // dispatch({
-      //   type: 'ADD_HOSPITAL',
-      // })
-      console.log('hospital added')
-    }
-    catch (err) {
+      await contract.methods.addHospital().send({ from: accounts[0] })
+      dispatch({
+        type: 'ADD_DOCTOR',
+      })
+    } catch (err) {
       console.error(err)
     }
   }
