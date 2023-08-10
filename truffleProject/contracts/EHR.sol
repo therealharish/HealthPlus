@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 
-contract health_record{
+contract EHR{
     struct Doctor{
         address id;
         string docName;
