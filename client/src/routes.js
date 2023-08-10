@@ -6,7 +6,9 @@ import AlertPopup from './components/layouts/AlertPopup'
 import Home from './pages'
 import Patient from './pages/patient'
 import Doctor from './pages/doctor'
+import Hospital from './pages/hospital'
 import HeaderAppBar from './components/layouts/Layout'
+
 
 const routes = [
   {
@@ -47,7 +49,7 @@ const routes = [
           <>
             <HeaderAppBar />
             <AlertPopup />
-            <Doctor />
+            <Hospital />
           </>
         ),
       },
