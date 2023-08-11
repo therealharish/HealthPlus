@@ -141,20 +141,21 @@ contract EHR{
     } 
 
     function checkPatientExists(address _patientId) public view senderIsHospitalorDoctororDiagnostic returns (bool) {
-    return patients[_patientId].id == _patientId;
+      return patients[_patientId].id == _patientId;
     }
 
     function checkDoctorExists(address _doctorId) public view senderIsHospitalorDiagnosticorClinic returns (bool) {
-    return doctors[_doctorId].id == _doctorId;
+      return doctors[_doctorId].id == _doctorId;
     }
   
     function addDoctor(address _doctorId, string memory _docName) public senderIsHospitalorClinic {
         require(doctors[_doctorId].id != _doctorId, "This doctor already exists.");
         Doctor memory doc_details = Doctor(_doctorId, _docName);
         // doctors[msg.sender].id = msg.sender;
-        doctors[_doctorId] = doc_details;
+        doctors[_doctorId].id = _doctorId;
+        doctors[_doctorId].docName = _docName;
         // doctors[_doctorId].id = _doctorId;
-        hospitals[msg.sender].docts.push(doctors[_doctorId]);
+        hospitals[msg.sender].docts.push(doc_details);
         emit DoctorAdded(_doctorId);
   }
     function addRecord(string memory _cid, string memory _fileName, address _patientId) public senderIsDoctor patientExists(_patientId) {

@@ -98,14 +98,15 @@ const Hospital = () => {
       if (doctorExists) {
         const records = await contract.methods.getDoctor(searchDoctorAddress).call({ from: accounts[0] })
         console.log('records :>> ', records)
-        console.log('records 1: ', records.id);
-        console.log('records 2', records.docName)
+        // console.log('records 1: ', records.id);
+        // console.log('records 2', records.docName)
         const doctorRecord = {};
         doctorRecord.id = records.id;
         doctorRecord.docName = records.docName;
-        console.log(doctorRecord);
+        console.log("doctorrecord: ", [doctorRecord]);
+
         setDoctorList([doctorRecord]);
-        console.log(doctorList);
+        console.log("doctor list ", doctorList);
         setDoctorExist(true)
       } else {
         setAlert('Doctor does not exist', 'error')
@@ -132,8 +133,8 @@ const Hospital = () => {
     try {
       // const records = await contract.methods.getDoctorList(searchDoctorAddress).call({ from: accounts[0] })
       const records = await contract.methods.getDoctorList(accounts[0]).call({ from: accounts[0] })
-      console.log('records :>> ', records)
-      setDoctorList(records)
+      console.log('records : ', records)
+      setDoctorList({records})
       setDoctorExist(true)
     }
     catch (err) {
@@ -240,13 +241,13 @@ const Hospital = () => {
                     </Box>
                   </Box>
 
-                  <Box mt={6} mb={4}>
+                  {/* <Box mt={6} mb={4}>
                     <Divider />
-                  </Box>
+                  </Box> */}
 
 
 
-                  <Typography variant='h4'>Registered Doctors</Typography>
+                  {/* <Typography variant='h4'>Registered Doctors</Typography>
                   <Box display='flex' alignItems='center' my={1}>
                     <FormControl fullWidth>
                       <TextField
@@ -264,10 +265,10 @@ const Hospital = () => {
                         <SearchRoundedIcon style={{ color: 'white' }} />
                       </CustomButton>
                     </Box>
-                    {/* <CustomButton text={'New Record'} handleClick={() => setAddRecord(true)} disabled={!patientExist}>
+                    <CustomButton text={'New Record'} handleClick={() => setAddRecord(true)} disabled={!patientExist}>
                       <CloudUploadRoundedIcon style={{ color: 'white' }} />
-                    </CustomButton> */}
-                  </Box>
+                    </CustomButton>
+                  </Box> */}
 
                   {doctorExist && doctorList.length === 0 && (
                     <Box display='flex' alignItems='center' justifyContent='center' my={5}>
@@ -277,11 +278,16 @@ const Hospital = () => {
 
                   {doctorExist && doctorList.length > 0 && (
                     <Box display='flex' flexDirection='column' mt={3} mb={-2}>
+                      <ul>
                       {doctorList.map((record, index) => (
                         <Box mb={2}>
-                          <Record key={index} record={record} />
+                          {record}
+                          <li>{record.id}</li>
+                          <li>{record.docName}</li>
+                          {/* <Record key={index} record={record} /> */}
                         </Box>
                       ))}
+                      </ul>
                     </Box>
                   )}
 
