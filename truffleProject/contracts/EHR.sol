@@ -17,12 +17,12 @@ contract EHR{
         uint256 timeAdded;
     }
 
-    // struct Patient{
-    //     address id;
-    //     string patName;
-    //     Record[] records;
-    //     //just view their own file
-    // }
+    struct Patient{
+        address id;
+        string patName;
+        Record[] records;
+        //just view their own file
+    }
 
     struct Diagnostics{
         address id;
