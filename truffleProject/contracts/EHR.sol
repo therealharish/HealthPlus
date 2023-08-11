@@ -139,16 +139,23 @@ contract EHR{
         patients[_patientId].id = _patientId;
         emit PatientAdded(_patientId);
     } 
+
     function checkPatientExists(address _patientId) public view senderIsHospitalorDoctororDiagnostic returns (bool) {
     return patients[_patientId].id == _patientId;
     }
+
+    function checkDoctorExists(address _doctorId) public view senderIsHospitalorDiagnosticorClinic returns (bool) {
+    return doctors[_doctorId].id == _doctorId;
+    }
   
     function addDoctor(address _doctorId, string memory _docName) public senderIsHospitalorClinic {
-        require(doctors[msg.sender].id != msg.sender, "This doctor already exists.");
+        require(doctors[_doctorId].id != _doctorId, "This doctor already exists.");
         Doctor memory doc_details = Doctor(_doctorId, _docName);
         // doctors[msg.sender].id = msg.sender;
-        hospitals[_doctorId].docts.push(doc_details);
-        emit DoctorAdded(msg.sender);
+        doctors[_doctorId] = doc_details;
+        // doctors[_doctorId].id = _doctorId;
+        hospitals[msg.sender].docts.push(doctors[_doctorId]);
+        emit DoctorAdded(_doctorId);
   }
     function addRecord(string memory _cid, string memory _fileName, address _patientId) public senderIsDoctor patientExists(_patientId) {
     Record memory record = Record(_cid, _fileName, _patientId, msg.sender, block.timestamp);
@@ -157,8 +164,16 @@ contract EHR{
     emit RecordAdded(_cid, _patientId, msg.sender);
   } 
 
-    function getDoctorList(address _doctorId) public view senderIsHospitalorClinic returns(Doctor[] memory){
-      return hospitals[_doctorId].docts;  
+  function getDoctor(address _doctorId) public view senderIsHospitalorDiagnosticorClinic returns(Doctor memory) {
+    return doctors[_doctorId];
+  }
+
+  //   function getDoctorList(address _doctorId) public view senderIsHospitalorClinic returns(Doctor[] memory){
+  //     return hospitals[_doctorId].docts;  
+  // }
+
+  function getDoctorList(address _hospitalId) public view senderIsHospitalorClinic returns(Doctor[] memory){
+    return hospitals[_hospitalId].docts;  
   }
 
     function getRecords(address _patientId) public view senderExists patientExists(_patientId) returns (Record[] memory) {

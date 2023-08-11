@@ -1,3 +1,5 @@
+//Index.jsx pages
+
 import { Box, Typography, Backdrop, CircularProgress, Divider } from '@mui/material'
 import React from 'react'
 import AccountBalanceWalletRoundedIcon from '@mui/icons-material/AccountBalanceWalletRounded'
@@ -20,6 +22,7 @@ const Home = () => {
   const navigate = useNavigate()
 
   const registerDoctor = async () => {
+    console.log("Doctor");
     try {
       await contract.methods.addDoctor().send({ from: accounts[0] })
       dispatch({
@@ -32,10 +35,10 @@ const Home = () => {
 
   const registerHospital = async () => {
     try {
-      // await contract.methods.addHospital().send({ from: accounts[0] })
-      // dispatch({
-      //   type: 'ADD_HOSPITAL',
-      // })
+      await contract.methods.addHospital().send({ from: accounts[0] })
+      dispatch({
+        type: 'ADD_HOSPITAL',
+      })
       console.log('hospital added')
     }
     catch (err) {
@@ -51,7 +54,7 @@ const Home = () => {
         </Typography>
       )
     } else {
-      if (role === 'unknown') {
+      if (role === 'unknown' || role === undefined || role === null) {
         return (
           <Box display='flex' flexDirection='column' alignItems='center'>
             <Box mb={2}>
@@ -83,6 +86,24 @@ const Home = () => {
       } else if (role === 'doctor') {
         return (
           <CustomButton text='Doctor Portal' handleClick={() => navigate('/doctor')}>
+            <LoginRoundedIcon style={{ color: 'white' }} />
+          </CustomButton>
+        )
+      } else if (role === 'hospital') {
+        return (
+          <CustomButton text='Hospital Portal' handleClick={() => navigate('/hospital')}>
+            <LoginRoundedIcon style={{ color: 'white' }} />
+          </CustomButton>
+        )
+      } else if (role === 'clinic') {
+        return (
+          <CustomButton text='Clinic Portal' handleClick={() => navigate('/clinic')}>
+            <LoginRoundedIcon style={{ color: 'white' }} />
+          </CustomButton>
+        )
+      } else if (role === 'diagnostic') {
+        return (
+          <CustomButton text='Diagnostic Portal' handleClick={() => navigate('/diagnostic')}>
             <LoginRoundedIcon style={{ color: 'white' }} />
           </CustomButton>
         )
