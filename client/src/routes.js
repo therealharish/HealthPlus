@@ -9,7 +9,6 @@ import Doctor from './pages/doctor'
 import Hospital from './pages/hospital'
 import HeaderAppBar from './components/layouts/Layout'
 
-
 const routes = [
   {
     path: '/',
@@ -47,9 +46,31 @@ const routes = [
         path: 'hospital',
         element: (
           <>
+
             <HeaderAppBar />
             <AlertPopup />
             <Hospital />
+          </>
+        ),
+      },
+      {
+        path: 'clinic',
+        element: (
+          <>
+            {/* <HeaderAppBar /> */}
+            <AlertPopup />
+            {/* Hello World */}
+            <Doctor />
+          </>
+        ),
+      },
+      {
+        path: 'diagnostic',
+        element: (
+          <>
+            <HeaderAppBar />
+            <AlertPopup />
+            <Doctor />
           </>
         ),
       },
