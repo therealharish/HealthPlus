@@ -149,14 +149,14 @@ const Home = () => {
           />
         </Box>
         <Box id='home-page-box' display='flex' flexDirection='column' justifyContent='center' alignItems='center' p={5}>
-          <img src={logo} alt='med-chain-logo' style={{ height: 50 }} />
+          {/* <img src={logo} alt='med-chain-logo' style={{ height: 50 }} /> */}
           <Box mt={2} mb={5}>
             <Typography variant='h4' color='white'>
               Own Your Health
             </Typography>
           </Box>
           <ActionSection />
-          <Box display='flex' alignItems='center' mt={2}>
+          {/* <Box display='flex' alignItems='center' mt={2}>
             <Typography variant='h5' color='white'>
               powered by{' '}
             </Typography>
@@ -172,7 +172,7 @@ const Home = () => {
               alt='Ethereum logo vector'
               style={{ height: 20 }}
             ></img>
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     )

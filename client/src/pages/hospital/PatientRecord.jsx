@@ -11,7 +11,7 @@ import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded'
 import ipfs from '../../ipfs'
 import Record from '../../components/Record'
 
-const Doctor = () => {
+const PatientRecord = () => {
   const {
     state: { contract, accounts, role, loading },
   } = useEth()
@@ -35,8 +35,8 @@ const Doctor = () => {
         const records = await contract.methods.getRecords(searchPatientAddress).call({ from: accounts[0] })
         console.log('records :>> ', records)
         setRecords(records)
-        setSearchPatientAddress('');
         setPatientExist(true)
+        setSearchPatientAddress('');
       } else {
         setAlert('Patient does not exist', 'error')
       }
@@ -87,9 +87,7 @@ const Doctor = () => {
     )
   } else {
     return (
-      <Box display='flex' justifyContent='center' width='100vw'>
-      <Box width='60%' my={5}>
-        
+        <>
           {!accounts ? (
             <Box display='flex' justifyContent='center'>
               <Typography variant='h6'>Open your MetaMask wallet to get connected, then refresh this page</Typography>
@@ -106,7 +104,7 @@ const Doctor = () => {
                   <Typography variant='h5'>Only hospital can access this page</Typography>
                 </Box>
               )}
-              {role === 'doctor' && (
+              {role === 'hospital' && (
                 <>
                   <Modal open={addRecord} onClose={() => setAddRecord(false)}>
                     <AddRecordModal
@@ -169,9 +167,9 @@ const Doctor = () => {
                         <SearchRoundedIcon style={{ color: 'white' }} />
                       </CustomButton>
                     </Box>
-                    <CustomButton text={'New Record'} handleClick={() => setAddRecord(true)} disabled={!patientExist}>
+                    {/* <CustomButton text={'New Record'} handleClick={() => setAddRecord(true)} disabled={!patientExist}>
                       <CloudUploadRoundedIcon style={{ color: 'white' }} />
-                    </CustomButton>
+                    </CustomButton> */}
                   </Box>
 
                   {patientExist && records.length === 0 && (
@@ -188,25 +186,26 @@ const Doctor = () => {
                           <Record key={index} record={record} />
                         </Box>
                       ))}
-                      
                     </Box>
                     <Box my={3}>
-                      <CustomButton mx={2} text={'Close'} handleClick={() => setPatientExist(false)}>
-                        <PersonAddAlt1RoundedIcon style={{ color: 'white' }} />
-                      </CustomButton>
-                    </Box>
-                    </>
+                    <CustomButton mx={2} text={'Close'} handleClick={() => setPatientExist(false)}>
+                      <PersonAddAlt1RoundedIcon style={{ color: 'white' }} />
+                    </CustomButton>
+                  </Box>
+                  </>
                   )}
+
+                <Box mt={6} mb={4}>
+                    <Divider />
+                </Box>
 
                 </>
               )}
             </>
           )}
-          
-        </Box>
-      </Box>
+          </>
     )
   }
 }
 
-export default Doctor
+export default PatientRecord

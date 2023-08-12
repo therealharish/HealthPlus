@@ -19,6 +19,7 @@ contract EHR{
 
     struct Patient{
         address id;
+        string patName;
         Record[] records;
         //just view their own file
     }
@@ -42,6 +43,7 @@ contract EHR{
     struct Hospital{
         address id;
         Doctor[] docts;
+        Patient[] pats;
         //can view patient list
         //can register patient
     }
@@ -134,28 +136,33 @@ contract EHR{
   }
     
 
-    function addPatient(address _patientId) public senderIsHospitalorDoctororDiagnostic {
+    function addPatient(address _patientId, string memory _patName) public senderIsHospitalorDoctororDiagnostic {
         require(patients[_patientId].id != _patientId, "This patient already exists.");
         patients[_patientId].id = _patientId;
+        patients[_patientId].patName = _patName;
         emit PatientAdded(_patientId);
     } 
+    //temp
+    function getPatient(address _patientId) public view senderIsHospitalorDoctororDiagnostic returns(address, string memory){
+        return (patients[_patientId].id,patients[_patientId].patName);
 
+    }
+    //end temp
     function checkPatientExists(address _patientId) public view senderIsHospitalorDoctororDiagnostic returns (bool) {
-      return patients[_patientId].id == _patientId;
+    return patients[_patientId].id == _patientId;
     }
 
     function checkDoctorExists(address _doctorId) public view senderIsHospitalorDiagnosticorClinic returns (bool) {
-      return doctors[_doctorId].id == _doctorId;
+    return doctors[_doctorId].id == _doctorId;
     }
   
     function addDoctor(address _doctorId, string memory _docName) public senderIsHospitalorClinic {
         require(doctors[_doctorId].id != _doctorId, "This doctor already exists.");
         Doctor memory doc_details = Doctor(_doctorId, _docName);
         // doctors[msg.sender].id = msg.sender;
-        doctors[_doctorId].id = _doctorId;
-        doctors[_doctorId].docName = _docName;
+        doctors[_doctorId] = doc_details;
         // doctors[_doctorId].id = _doctorId;
-        hospitals[msg.sender].docts.push(doc_details);
+        hospitals[msg.sender].docts.push(doctors[_doctorId]);
         emit DoctorAdded(_doctorId);
   }
     function addRecord(string memory _cid, string memory _fileName, address _patientId) public senderIsDoctor patientExists(_patientId) {
@@ -165,21 +172,27 @@ contract EHR{
     emit RecordAdded(_cid, _patientId, msg.sender);
   } 
 
-  function getDoctor(address _doctorId) public view senderIsHospitalorDiagnosticorClinic returns(Doctor memory) {
-    return doctors[_doctorId];
+  function getDoctor(address _doctorId) public view senderIsHospitalorDiagnosticorClinic returns(address, string memory) {
+    return (doctors[_doctorId].id,doctors[_doctorId].docName);
   }
 
-  //   function getDoctorList(address _doctorId) public view senderIsHospitalorClinic returns(Doctor[] memory){
-  //     return hospitals[_doctorId].docts;  
-  // }
+//     function getDoctorList(address _hospitalId) public view senderIsHospitalorClinic returns(Doctor[] memory){
+//     return hospitals[_hospitalId].docts;  
+//   }
 
-  function getDoctorList(address _hospitalId) public view senderIsHospitalorClinic returns(Doctor[] memory){
-    return hospitals[_hospitalId].docts;  
+    function getDoctorList(address _hospitalId) public view senderIsHospitalorClinic returns(address[] memory){
+        uint256 doctorCount = hospitals[_hospitalId].docts.length;
+        address[] memory doctorIds = new address[](doctorCount);
+
+        for (uint256 i = 0; i < doctorCount; i++) {
+            doctorIds[i] = hospitals[_hospitalId].docts[i].id;
+        }
+
+        return doctorIds;
   }
 
     function getRecords(address _patientId) public view senderExists patientExists(_patientId) returns (Record[] memory) {
     return patients[_patientId].records;
   }
-  
 
 }
