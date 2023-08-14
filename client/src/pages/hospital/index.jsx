@@ -7,9 +7,11 @@ import useEth from '../../contexts/EthContext/useEth'
 import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded'
 import useAlert from '../../contexts/AlertContext/useAlert'
 import AddRecordModal from '../doctor/AddRecordModal'
-import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded'
+// import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded'
 import ipfs from '../../ipfs'
 import Record from '../../components/Record'
+import PatientRecord from './PatientRecord'
+import DoctorRecord from './DoctorRecord'
 
 const Hospital = () => {
   const {
@@ -28,7 +30,14 @@ const Hospital = () => {
   const [addDoctorAddress, setAddDoctorAddress] = useState('')
   const [doctorList, setDoctorList] = useState([])
   const [addDoctorName, setAddDoctorName] = useState('')
-  // const [addRecord, setAddRecord] = useState(false)
+  const [doctorRecord, setDoctorRecord] = useState([])
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setCount((count) => count + 1);
+  //   }, 1000);
+  // });
+
 
   const searchPatient = async () => {
     try {
@@ -95,18 +104,17 @@ const Hospital = () => {
       console.log(searchDoctorAddress)
       const doctorExists = await contract.methods.checkDoctorExists(searchDoctorAddress).call({ from: accounts[0] })
       console.log(doctorExists)
+      console.log(doctorRecord)
       if (doctorExists) {
         const records = await contract.methods.getDoctor(searchDoctorAddress).call({ from: accounts[0] })
-        console.log('records :>> ', records)
-        console.log('records 1: ', records.id);
-        console.log('records 2', records.docName)
-        const doctorRecord = {};
-        doctorRecord.id = records.id;
-        doctorRecord.docName = records.docName;
-        console.log(doctorRecord);
-        setDoctorList([doctorRecord]);
-        console.log(doctorList);
+        console.log('records :>> ', [records[0], records[1]])
+        const temp = [records[0], records[1]];
         setDoctorExist(true)
+        setAddDoctorAddress(records[0]);
+        setAddDoctorName(records[1]);
+        // setDoctorRecord(temp);
+        // console.log("records: ", temp);
+        // console.log("doctor record ", doctorRecord);
       } else {
         setAlert('Doctor does not exist', 'error')
       }
@@ -132,9 +140,10 @@ const Hospital = () => {
     try {
       // const records = await contract.methods.getDoctorList(searchDoctorAddress).call({ from: accounts[0] })
       const records = await contract.methods.getDoctorList(accounts[0]).call({ from: accounts[0] })
-      console.log('records :>> ', records)
-      setDoctorList(records)
+      console.log('records : ', records)
       setDoctorExist(true)
+      setDoctorList(records)
+      console.log(doctorList);
     }
     catch (err) {
       console.log("View Doctor Error: ", err);
@@ -169,7 +178,7 @@ const Hospital = () => {
               )}
               {role === 'hospital' && (
                 <>
-                  <Modal open={addRecord} onClose={() => setAddRecord(false)}>
+                  {/* <Modal open={addRecord} onClose={() => setAddRecord(false)}>
                     <AddRecordModal
                       handleClose={() => setAddRecord(false)}
                       handleUpload={addRecordCallback}
@@ -242,11 +251,10 @@ const Hospital = () => {
 
                   <Box mt={6} mb={4}>
                     <Divider />
-                  </Box>
+                  </Box> */}
 
 
-
-                  <Typography variant='h4'>Registered Doctors</Typography>
+                  {/* <Typography variant='h4'>View Doctor</Typography>
                   <Box display='flex' alignItems='center' my={1}>
                     <FormControl fullWidth>
                       <TextField
@@ -264,9 +272,6 @@ const Hospital = () => {
                         <SearchRoundedIcon style={{ color: 'white' }} />
                       </CustomButton>
                     </Box>
-                    {/* <CustomButton text={'New Record'} handleClick={() => setAddRecord(true)} disabled={!patientExist}>
-                      <CloudUploadRoundedIcon style={{ color: 'white' }} />
-                    </CustomButton> */}
                   </Box>
 
                   {doctorExist && doctorList.length === 0 && (
@@ -275,13 +280,11 @@ const Hospital = () => {
                     </Box>
                   )}
 
-                  {doctorExist && doctorList.length > 0 && (
+                  {doctorExist && addDoctorAddress && addDoctorName && (
+                  
                     <Box display='flex' flexDirection='column' mt={3} mb={-2}>
-                      {doctorList.map((record, index) => (
-                        <Box mb={2}>
-                          <Record key={index} record={record} />
-                        </Box>
-                      ))}
+                      <div>Id: {addDoctorAddress}</div> 
+                      <div>Name: {addDoctorName}</div>
                     </Box>
                   )}
 
@@ -302,7 +305,11 @@ const Hospital = () => {
                         InputProps={{ style: { fontSize: '15px' } }}
                         InputLabelProps={{ style: { fontSize: '15px' } }}
                         size='small'
+                        style={{width: 300}}
                       />
+                      
+                    </FormControl>
+                    <FormControl fullWidth>
                       <TextField
                         variant='outlined'
                         placeholder='Enter Doctor Name'
@@ -311,6 +318,7 @@ const Hospital = () => {
                         InputProps={{ style: { fontSize: '15px' } }}
                         InputLabelProps={{ style: { fontSize: '15px' } }}
                         size='small'
+                        style={{width: 310}}
                       />
                     </FormControl>
                     <Box mx={2}>
@@ -322,11 +330,17 @@ const Hospital = () => {
 
 
 
-                  <Box mx={2}>
-                      <CustomButton text={'View'} handleClick={() => viewDoctor()}>
+                  <Box m={3}>
+                      <CustomButton text={'View Patients'} handleClick={() => viewDoctor()}>
                         <PersonAddAlt1RoundedIcon style={{ color: 'white' }} />
                       </CustomButton>
-                    </Box>
+                      <CustomButton mx={2} text={'View Doctors'} handleClick={() => viewDoctor()}>
+                        <PersonAddAlt1RoundedIcon style={{ color: 'white' }} />
+                      </CustomButton>
+                    </Box> */}
+                    
+                  <PatientRecord />
+                  <DoctorRecord />
                 </>
               )}
             </>

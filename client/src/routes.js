@@ -58,10 +58,9 @@ const routes = [
         path: 'clinic',
         element: (
           <>
-            {/* <HeaderAppBar /> */}
+            <HeaderAppBar />
             <AlertPopup />
-            {/* Hello World */}
-            <Doctor />
+            <Hospital />
           </>
         ),
       },
@@ -71,7 +70,7 @@ const routes = [
           <>
             <HeaderAppBar />
             <AlertPopup />
-            <Diagnostic />
+            <Hospital />
           </>
         ),
       },
