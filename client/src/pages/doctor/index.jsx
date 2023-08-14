@@ -29,7 +29,7 @@ const Doctor = () => {
         setAlert('Please enter a valid wallet address', 'error')
         return
       }
-      const patientExists = await contract.methods.getPatientExists(searchPatientAddress).call({ from: accounts[0] })
+      const patientExists = await contract.methods.checkPatientExists(searchPatientAddress).call({ from: accounts[0] })
       if (patientExists) {
         const records = await contract.methods.getRecords(searchPatientAddress).call({ from: accounts[0] })
         console.log('records :>> ', records)

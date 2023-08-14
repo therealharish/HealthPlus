@@ -46,6 +46,32 @@ const Home = () => {
     }
   }
 
+  const registerDiagnostic = async () => {
+    try {
+      await contract.methods.addDiagnostic().send({ from: accounts[0] })
+      dispatch({
+        type: 'ADD_DIAGNOSTIC',
+      })
+      console.log('diagnostic center added')
+    }
+    catch (err) {
+      console.error(err)
+    }
+  }
+
+  const registerClinic = async () => {
+    try {
+      await contract.methods.addClinic().send({ from: accounts[0] })
+      dispatch({
+        type: 'ADD_CLINIC',
+      })
+      console.log('diagnostic center added')
+    }
+    catch (err) {
+      console.error(err)
+    }
+  }
+
   const ActionSection = () => {
     if (!accounts) {
       return (
@@ -63,12 +89,12 @@ const Home = () => {
               </CustomButton>
             </Box>
             <Box mb={2}>
-              <CustomButton text='Clinic Register' handleClick={() => registerDoctor()}>
+              <CustomButton text='Clinic Register' handleClick={() => registerClinic()}>
                 <PersonAddAlt1RoundedIcon style={{ color: 'white' }} />
               </CustomButton>
             </Box>
             <Box mb={2}>
-              <CustomButton text='Diagnostic Center Register' handleClick={() => registerDoctor()}>
+              <CustomButton text='Diagnostic Center Register' handleClick={() => registerDiagnostic()}>
                 <PersonAddAlt1RoundedIcon style={{ color: 'white' }} />
               </CustomButton>
             </Box>
@@ -156,7 +182,7 @@ const Home = () => {
             </Typography>
           </Box>
           <ActionSection />
-          <Box display='flex' alignItems='center' mt={2}>
+          {/* <Box display='flex' alignItems='center' mt={2}>
             <Typography variant='h5' color='white'>
               powered by{' '}
             </Typography>
@@ -172,7 +198,7 @@ const Home = () => {
               alt='Ethereum logo vector'
               style={{ height: 20 }}
             ></img>
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     )
