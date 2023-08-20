@@ -1,14 +1,19 @@
-import { Box, Typography, Backdrop, CircularProgress } from '@mui/material'
+import { Box, Divider, FormControl, Modal, TextField, Typography, Backdrop, CircularProgress } from '@mui/material'
 import React, { useCallback } from 'react'
 import { useState } from 'react'
+import CustomButton from '../../components/CustomButton'
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 import useEth from '../../contexts/EthContext/useEth'
+import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded'
 import useAlert from '../../contexts/AlertContext/useAlert'
+import AddRecordModal from '../doctor/AddRecordModal'
+// import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded'
 import ipfs from '../../ipfs'
 import Record from '../../components/Record'
 import PatientRecord from './PatientRecord'
 import DoctorRecord from './DoctorRecord'
 
-const Hospital = () => {
+const Clinic = () => {
   const {
     state: { contract, accounts, role, loading },
   } = useEth()
@@ -166,13 +171,13 @@ const Hospital = () => {
                   <Typography variant='h5'>You're not registered, please go to home page</Typography>
                 </Box>
               )}
-              {(role === 'patient' || role === 'doctor' || role === 'clinic' || role === 'diagnostic')&& (
+              {(role === 'patient' || role === 'doctor' || role === 'hospital' || role === 'diagnostic')&& (
                 <Box display='flex' justifyContent='center'>
-                  <Typography variant='h5'>Only hospital can access this page</Typography>
+                  <Typography variant='h5'>Only Clinic can access this page</Typography>
                 </Box>
               )}
-              {role === 'hospital' && (
-                <>            
+              {role === 'clinic' && (
+                <>                    
                   <PatientRecord />
                   <DoctorRecord />
                 </>
@@ -185,4 +190,4 @@ const Hospital = () => {
   }
 }
 
-export default Hospital
+export default Clinic

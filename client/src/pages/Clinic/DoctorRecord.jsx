@@ -111,17 +111,7 @@ const DoctorRecord = () => {
           </Box>
         ) : (
           <>
-            {role === 'unknown' && (
-              <Box display='flex' justifyContent='center'>
-                <Typography variant='h5'>You're not registered, please go to home page</Typography>
-              </Box>
-            )}
-            {(role === 'patient') && (
-              <Box display='flex' justifyContent='center'>
-                <Typography variant='h5'>Only hospital can access this page</Typography>
-              </Box>
-            )}
-            {role === 'hospital' && (
+            {role === 'clinic' && (
               <>
                 <Typography variant='h4'>Register Doctor</Typography>
                 <Box display='flex' alignItems='center' my={1}>

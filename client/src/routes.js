@@ -1,5 +1,4 @@
 // Guards
-import Layout from './components/layouts/Layout'
 import AlertPopup from './components/layouts/AlertPopup'
 
 // Pages
@@ -9,6 +8,7 @@ import Doctor from './pages/doctor'
 import Hospital from './pages/hospital'
 import Diagnostic from './pages/Diagnostic'
 import HeaderAppBar from './components/layouts/Layout'
+import Clinic from './pages/Clinic'
 
 const routes = [
   {
@@ -60,7 +60,7 @@ const routes = [
           <>
             <HeaderAppBar />
             <AlertPopup />
-            <Hospital />
+            <Clinic />
           </>
         ),
       },
@@ -70,7 +70,7 @@ const routes = [
           <>
             <HeaderAppBar />
             <AlertPopup />
-            <Hospital />
+            <Diagnostic />
           </>
         ),
       },
