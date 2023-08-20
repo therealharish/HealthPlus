@@ -6,7 +6,7 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 import useEth from '../../contexts/EthContext/useEth'
 import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded'
 import useAlert from '../../contexts/AlertContext/useAlert'
-import AddRecordModal from './AddRecordModal'
+import AddRecordModal from '../doctor/AddRecordModal'
 import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded'
 import ipfs from '../../ipfs'
 import Record from '../../components/Record'
@@ -20,6 +20,7 @@ const Doctor = () => {
   const [patientExist, setPatientExist] = useState(false)
   const [searchPatientAddress, setSearchPatientAddress] = useState('')
   const [addPatientAddress, setAddPatientAddress] = useState('')
+  const [addPatientName, setAddPatientName] = useState('')
   const [records, setRecords] = useState([])
   const [addRecord, setAddRecord] = useState(false)
 
@@ -29,11 +30,12 @@ const Doctor = () => {
         setAlert('Please enter a valid wallet address', 'error')
         return
       }
-      const patientExists = await contract.methods.getPatientExists(searchPatientAddress).call({ from: accounts[0] })
+      const patientExists = await contract.methods.checkPatientExists(searchPatientAddress).call({ from: accounts[0] })
       if (patientExists) {
         const records = await contract.methods.getRecords(searchPatientAddress).call({ from: accounts[0] })
         console.log('records :>> ', records)
         setRecords(records)
+        setSearchPatientAddress('');
         setPatientExist(true)
       } else {
         setAlert('Patient does not exist', 'error')
@@ -45,7 +47,7 @@ const Doctor = () => {
 
   const registerPatient = async () => {
     try {
-      await contract.methods.addPatient(addPatientAddress).send({ from: accounts[0] })
+      await contract.methods.addPatient(addPatientAddress, addPatientName).send({ from: accounts[0] })
     } catch (err) {
       console.error(err)
     }
@@ -86,7 +88,8 @@ const Doctor = () => {
   } else {
     return (
       <Box display='flex' justifyContent='center' width='100vw'>
-        <Box width='60%' my={5}>
+      <Box width='60%' my={5}>
+        
           {!accounts ? (
             <Box display='flex' justifyContent='center'>
               <Typography variant='h6'>Open your MetaMask wallet to get connected, then refresh this page</Typography>
@@ -98,9 +101,9 @@ const Doctor = () => {
                   <Typography variant='h5'>You're not registered, please go to home page</Typography>
                 </Box>
               )}
-              {role === 'patient' && (
+              {(role === 'patient' || role === 'diagnostic' || role === 'hospital' || role === 'clinic') && (
                 <Box display='flex' justifyContent='center'>
-                  <Typography variant='h5'>Only doctor can access this page</Typography>
+                  <Typography variant='h5'>Only hospital can access this page</Typography>
                 </Box>
               )}
               {role === 'doctor' && (
@@ -112,6 +115,41 @@ const Doctor = () => {
                       patientAddress={searchPatientAddress}
                     />
                   </Modal>
+
+                  <Typography variant='h4'>Register Patient</Typography>
+                  <Box display='flex' alignItems='center' my={1}>
+                    <FormControl fullWidth>
+                      <TextField
+                        variant='outlined'
+                        placeholder='Enter Patient Wallet Address'
+                        value={addPatientAddress}
+                        onChange={e => setAddPatientAddress(e.target.value)}
+                        InputProps={{ style: { fontSize: '15px' } }}
+                        InputLabelProps={{ style: { fontSize: '15px' } }}
+                        size='small'
+                      />
+                    </FormControl>
+                    <FormControl fullWidth mx={2}>
+                      <TextField
+                        variant='outlined'
+                        placeholder='Enter Patient Name'
+                        value={addPatientName}
+                        onChange={e => setAddPatientName(e.target.value)}
+                        InputProps={{ style: { fontSize: '15px' } }}
+                        InputLabelProps={{ style: { fontSize: '15px' } }}
+                        size='small'
+                      />
+                    </FormControl>
+                    <Box mx={2}>
+                      <CustomButton text={'Register'} handleClick={() => registerPatient()}>
+                        <PersonAddAlt1RoundedIcon style={{ color: 'white' }} />
+                      </CustomButton>
+                    </Box>
+                  </Box>
+
+                  <Box mt={6} mb={4}>
+                    <Divider />
+                  </Box>
 
                   <Typography variant='h4'>Patient Records</Typography>
                   <Box display='flex' alignItems='center' my={1}>
@@ -143,42 +181,28 @@ const Doctor = () => {
                   )}
 
                   {patientExist && records.length > 0 && (
+                    <>
                     <Box display='flex' flexDirection='column' mt={3} mb={-2}>
                       {records.map((record, index) => (
                         <Box mb={2}>
                           <Record key={index} record={record} />
                         </Box>
                       ))}
+                      
                     </Box>
-                  )}
-
-                  <Box mt={6} mb={4}>
-                    <Divider />
-                  </Box>
-
-                  <Typography variant='h4'>Register Patient</Typography>
-                  <Box display='flex' alignItems='center' my={1}>
-                    <FormControl fullWidth>
-                      <TextField
-                        variant='outlined'
-                        placeholder='Register patient by wallet address'
-                        value={addPatientAddress}
-                        onChange={e => setAddPatientAddress(e.target.value)}
-                        InputProps={{ style: { fontSize: '15px' } }}
-                        InputLabelProps={{ style: { fontSize: '15px' } }}
-                        size='small'
-                      />
-                    </FormControl>
-                    <Box mx={2}>
-                      <CustomButton text={'Register'} handleClick={() => registerPatient()}>
+                    <Box my={3}>
+                      <CustomButton mx={2} text={'Close'} handleClick={() => setPatientExist(false)}>
                         <PersonAddAlt1RoundedIcon style={{ color: 'white' }} />
                       </CustomButton>
                     </Box>
-                  </Box>
+                    </>
+                  )}
+
                 </>
               )}
             </>
           )}
+          
         </Box>
       </Box>
     )

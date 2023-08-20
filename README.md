@@ -58,6 +58,7 @@ $ cd truffle
 $ npm install
 $ truffle compile
 $ truffle deploy
+$ truffle migrate --network ganache
 ```
 
 Install React dependencies and start React app. 

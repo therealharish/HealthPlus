@@ -1,6 +1,7 @@
-import { Box, Typography, Backdrop, CircularProgress, Divider } from '@mui/material'
+//Index.jsx pages
+
+import { Box, Typography, Backdrop, CircularProgress} from '@mui/material'
 import React from 'react'
-import AccountBalanceWalletRoundedIcon from '@mui/icons-material/AccountBalanceWalletRounded'
 import VideoCover from 'react-video-cover'
 import BackgroundVideo from '../assets/BackgroundVideo.mp4'
 import logo from '../assets/tealNoBG-cropped.png'
@@ -9,7 +10,6 @@ import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded'
 import CustomButton from '../components/CustomButton'
 import { useNavigate } from 'react-router-dom'
 import LoginRoundedIcon from '@mui/icons-material/LoginRounded'
-import { grey } from '@mui/material/colors'
 import '../App.css'
 
 const Home = () => {
@@ -19,24 +19,41 @@ const Home = () => {
   } = useEth()
   const navigate = useNavigate()
 
-  const registerDoctor = async () => {
-    try {
-      await contract.methods.addDoctor().send({ from: accounts[0] })
-      dispatch({
-        type: 'ADD_DOCTOR',
-      })
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
   const registerHospital = async () => {
     try {
       await contract.methods.addHospital().send({ from: accounts[0] })
       dispatch({
-        type: 'ADD_DOCTOR',
+        type: 'ADD_HOSPITAL',
       })
-    } catch (err) {
+      console.log('hospital added')
+    }
+    catch (err) {
+      console.error(err)
+    }
+  }
+
+  const registerDiagnostic = async () => {
+    try {
+      await contract.methods.addDiagnostic().send({ from: accounts[0] })
+      dispatch({
+        type: 'ADD_DIAGNOSTIC',
+      })
+      console.log('diagnostic center added')
+    }
+    catch (err) {
+      console.error(err)
+    }
+  }
+
+  const registerClinic = async () => {
+    try {
+      await contract.methods.addClinic().send({ from: accounts[0] })
+      dispatch({
+        type: 'ADD_CLINIC',
+      })
+      console.log('diagnostic center added')
+    }
+    catch (err) {
       console.error(err)
     }
   }
@@ -49,7 +66,7 @@ const Home = () => {
         </Typography>
       )
     } else {
-      if (role === 'unknown') {
+      if (role === 'unknown' || role === undefined || role === null) {
         return (
           <Box display='flex' flexDirection='column' alignItems='center'>
             <Box mb={2}>
@@ -58,12 +75,12 @@ const Home = () => {
               </CustomButton>
             </Box>
             <Box mb={2}>
-              <CustomButton text='Clinic Register' handleClick={() => registerDoctor()}>
+              <CustomButton text='Clinic Register' handleClick={() => registerClinic()}>
                 <PersonAddAlt1RoundedIcon style={{ color: 'white' }} />
               </CustomButton>
             </Box>
             <Box mb={2}>
-              <CustomButton text='Diagnostic Center Register' handleClick={() => registerDoctor()}>
+              <CustomButton text='Diagnostic Center Register' handleClick={() => registerDiagnostic()}>
                 <PersonAddAlt1RoundedIcon style={{ color: 'white' }} />
               </CustomButton>
             </Box>
@@ -81,6 +98,24 @@ const Home = () => {
       } else if (role === 'doctor') {
         return (
           <CustomButton text='Doctor Portal' handleClick={() => navigate('/doctor')}>
+            <LoginRoundedIcon style={{ color: 'white' }} />
+          </CustomButton>
+        )
+      } else if (role === 'hospital') {
+        return (
+          <CustomButton text='Hospital Portal' handleClick={() => navigate('/hospital')}>
+            <LoginRoundedIcon style={{ color: 'white' }} />
+          </CustomButton>
+        )
+      } else if (role === 'clinic') {
+        return (
+          <CustomButton text='Clinic Portal' handleClick={() => navigate('/clinic')}>
+            <LoginRoundedIcon style={{ color: 'white' }} />
+          </CustomButton>
+        )
+      } else if (role === 'diagnostic') {
+        return (
+          <CustomButton text='Diagnostic Portal' handleClick={() => navigate('/diagnostic')}>
             <LoginRoundedIcon style={{ color: 'white' }} />
           </CustomButton>
         )
@@ -126,30 +161,13 @@ const Home = () => {
           />
         </Box>
         <Box id='home-page-box' display='flex' flexDirection='column' justifyContent='center' alignItems='center' p={5}>
-          <img src={logo} alt='med-chain-logo' style={{ height: 50 }} />
+          <img src={logo} alt='med-chain-logo' style={{ height: 70 }} />
           <Box mt={2} mb={5}>
             <Typography variant='h4' color='white'>
               Own Your Health
             </Typography>
           </Box>
           <ActionSection />
-          <Box display='flex' alignItems='center' mt={2}>
-            <Typography variant='h5' color='white'>
-              powered by{' '}
-            </Typography>
-            <Box mx={1}>
-              <img
-                src='https://cdn.worldvectorlogo.com/logos/ethereum-1.svg'
-                alt='Ethereum logo vector'
-                style={{ height: 20 }}
-              ></img>
-            </Box>
-            <img
-              src='https://upload.wikimedia.org/wikipedia/commons/1/18/Ipfs-logo-1024-ice-text.png'
-              alt='Ethereum logo vector'
-              style={{ height: 20 }}
-            ></img>
-          </Box>
         </Box>
       </Box>
     )

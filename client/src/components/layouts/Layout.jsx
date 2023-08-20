@@ -15,7 +15,7 @@ const HeaderAppBar = () => {
       <Toolbar>
         <Box display='flex' justifyContent='space-between' alignItems='center' width='100%'>
           <a href='/'>
-            <img src={logo} alt='med-chain-logo' style={{ height: 20, weight: 20 }} />
+            <img src={logo} alt='med-chain-logo' style={{ height: 30, weight: 30 }} />
           </a>
           <Box flexGrow={1} />
           <Box display='flex' alignItems='center'>
@@ -29,7 +29,7 @@ const HeaderAppBar = () => {
             </Box>
             <Chip
               label={role === 'unknown' ? 'not registered' : role}
-              style={{ fontSize: '12px', backgroundColor: teal['A700'], color: 'white' }}
+              style={{ fontSize: '13px', backgroundColor: teal['A700'], color: 'white' }}
             />
           </Box>
         </Box>

@@ -1,6 +1,6 @@
-require("dotenv").config();
-const HDWalletProvider = require("@truffle/hdwallet-provider");
-const { INFURA_API_KEY, MNEMONIC } = process.env;
+// require("dotenv").config();
+// const HDWalletProvider = require("@truffle/hdwallet-provider");
+// const { INFURA_API_KEY, MNEMONIC } = process.env;
 
 module.exports = {
   networks: {
@@ -12,7 +12,10 @@ module.exports = {
     ganache: {
       host: "127.0.0.1",
       port: 7545,
-      network_id: "5777"
+      network_id: "5777",
+      allowUnlimitedContractSize: true
+      // gas: 2100000,
+      // gasPrice: 8000000000,
     },
   },
   compilers: {
