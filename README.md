@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://github.com/JeffreytheCoder/med-chain/blob/master/client/src/assets/tealNoBG-cropped.png?raw=true" alt="Markdownify" width="300"></a>
+  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://github.com/therealharish/HealthPlus/blob/master/client/src/assets/cover.png" alt="Markdownify" width="300"></a>
   <br>
 </h1>
 
@@ -16,20 +16,20 @@
 
 ## Key Features
 
-MedChain is powered by [IPFS](https://ipfs.tech/), where every patient's medical records are stored on the distributed file system, not owned by any centralized entity like hospitals or governments. Each patient has a digital identity on [Ethereum](https://ethereum.org/) blockchain, who and whose doctor can access medical records by interacting with smart contracts. 
+HealthPlus is powered by [IPFS](https://ipfs.tech/), where every patient's medical records are stored on the distributed file system, not owned by any centralized entity like hospitals or governments. Each patient has a digital identity on [Ethereum](https://ethereum.org/) blockchain, who and whose doctor can access medical records by interacting with smart contracts. 
 
-On MedChain,
+On HealthPlus,
 
 - A healthcare provider can register using a crypto wallet like Metamask.
 - The healthcare provider can register a patient by using the public address of the patient’s wallet, usually provided during an appointment.
 - The health provider can search for a patient’s records using the address, and upload a new record for the patient. 
 - The patient can also view his or her records, after connected with a wallet which address is registered by the health provider.
 
-This project is the 3rd place winner of [NextStep Hacks 2022](https://devpost.com/software/medchain-k4wzry).
+This project stood as a semi-finalist in the Hackathon at [Flipkart Gird 5.0](https://unstop.com/hackathons/flipkart-grid-50-health-track-flipkart-grid-50-flipkart-686250).
 
 ## How It Works
 
-There are three major components of MedChain:
+There are three major components of HealthPlus:
 
 1. React client (connected with MetaMask)
 2. Solidity smart contract on Ethereum blockchain
@@ -78,7 +78,7 @@ If you like this project, please leave a star ⭐️. This helps more people to 
 
 ---
 
-> [jeffreyyu.dev](https://jeffreyyu.dev/) &nbsp;&middot;&nbsp;
-> GitHub [@jeffreythecoder](https://github.com/JeffreytheCoder/JeffreytheCoder) &nbsp;&middot;&nbsp;
-> Twitter [@jeffreyzepengyu](https://twitter.com/jeffreyzepengyu)
+> Harish's GitHub [@therealharish](https://github.com/therealharish) &nbsp;&middot;&nbsp;
+> Yash's GitHub [@yashsrivastavv](https://github.com/yashsrivastavv) &nbsp;&middot;&nbsp;
+> Anushka's GitHub [@anushka171-gupta](https://github.com/anushka171-gupta) &nbsp;&middot;&nbsp;
 
